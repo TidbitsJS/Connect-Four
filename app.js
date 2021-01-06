@@ -170,6 +170,22 @@ const getCellLocation = (cell) => {
   return [rowNumber, colNumber];
 };
 
+const getFirstOpenCellForColumn = (colIndex) => {
+  const column = columns[colIndex];
+
+  const columnsWithoutTop = column.slice(0, 6);
+
+  for (const cell of columnsWithoutTop) {
+    const classList = getClassListArray(cell);
+
+    if (!classList.includes("yellow") && !classList.includes("red")) {
+      return cell;
+    }
+  }
+
+  return null;
+};
+
 const handleCellMouseOver = (e) => {
   const cell = e.target;
   const [rowIndex, colIndex] = getCellLocation(cell);
@@ -195,6 +211,12 @@ const handleCellMouseOut = (e) => {
 const handleCellClick = (e) => {
   const cell = e.target;
   const [rowIndex, colIndex] = getCellLocation(cell);
+
+  const openCell = getFirstOpenCellForColumn(colIndex);
+
+  if (!openCell) return;
+
+  openCell.classList.add(yellowIsNext ? "yellow" : "red");
 };
 
 for (const row of rows) {
