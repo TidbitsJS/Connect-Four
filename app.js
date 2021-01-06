@@ -220,6 +220,8 @@ const checkStatusOfGame = (cell) => {
   if (!color) return;
   const [rowIndex, colIndex] = getCellLocation(cell);
 
+  /* Check Horizontally */
+
   let winningCells = [cell];
   let rowToCheck = rowIndex;
   let colToCheck = colIndex - 1;
@@ -248,10 +250,129 @@ const checkStatusOfGame = (cell) => {
     }
   }
 
-  checkWinningCells(winningCells);
+  let isWinningCombo = checkWinningCells(winningCells);
+  if (isWinningCombo) return;
+
+  /* Check Vertically */
+
+  winningCells = [cell];
+  rowToCheck = rowIndex - 1;
+  colToCheck = colIndex;
+
+  while (rowToCheck >= 0) {
+    const cellToCheck = rows[rowToCheck][colToCheck];
+
+    if (getColorOfCell(cellToCheck) === color) {
+      winningCells.push(cellToCheck);
+      rowToCheck--;
+    } else {
+      break;
+    }
+  }
+
+  rowToCheck = rowIndex + 1;
+
+  while (rowToCheck <= 5) {
+    const cellToCheck = rows[rowToCheck][colToCheck];
+
+    if (getColorOfCell(cellToCheck) === color) {
+      winningCells.push(cellToCheck);
+      rowToCheck++;
+    } else {
+      break;
+    }
+  }
+
+  isWinningCombo = checkWinningCells(winningCells);
+  if (isWinningCombo) return;
+
+  /* Check diagonally right */
+
+  winningCells = [cell];
+  rowToCheck = rowIndex - 1;
+  colToCheck = colIndex - 1;
+
+  while (colToCheck >= 0 && rowToCheck >= 0) {
+    const cellToCheck = rows[rowToCheck][colToCheck];
+    if (getColorOfCell(cellToCheck) === color) {
+      winningCells.push(cellToCheck);
+      rowToCheck--;
+      colToCheck--;
+    } else {
+      break;
+    }
+  }
+
+  rowToCheck = rowIndex + 1;
+  colToCheck = colIndex + 1;
+
+  while (colToCheck <= 6 && rowToCheck <= 5) {
+    const cellToCheck = rows[rowToCheck][colToCheck];
+    if (getColorOfCell(cellToCheck) === color) {
+      winningCells.push(cellToCheck);
+      rowToCheck++;
+      colToCheck++;
+    } else {
+      break;
+    }
+  }
+
+  isWinningCombo = checkWinningCells(winningCells);
+  if (isWinningCombo) return;
+
+  /* Check diagonally left */
+
+  winningCells = [cell];
+  rowToCheck = rowIndex + 1;
+  colToCheck = colIndex - 1;
+
+  while (colToCheck >= 0 && rowToCheck <= 5) {
+    const cellToCheck = rows[rowToCheck][colToCheck];
+
+    if (getColorOfCell(cellToCheck) === color) {
+      winningCells.push(cellToCheck);
+      rowToCheck++;
+      colToCheck--;
+    } else {
+      break;
+    }
+  }
+
+  rowToCheck = rowIndex - 1;
+  colToCheck = colIndex + 1;
+
+  while (colToCheck <= 6 && rowToCheck >= 0) {
+    const cellToCheck = rows[rowToCheck][colToCheck];
+
+    if (getColorOfCell(cellToCheck) === color) {
+      winningCells.push(cellToCheck);
+      rowToCheck--;
+      colToCheck++;
+    } else {
+      break;
+    }
+  }
+
+  isWinningCombo = checkWinningCells(winningCells);
+  if (isWinningCombo) return;
+
+  const rowsWithoutTop = rows.slice(0, 6);
+  for (const row of rowsWithoutTop) {
+    for (const cell of row) {
+      const classList = getClassListArray(cell);
+      if (!classList.includes("green") && !classList.includes("red")) {
+        return;
+      }
+    }
+  }
+
+  gameIsLive = false;
+  statusSpan.textContent = "Game is a tie!";
 };
 
 const handleCellMouseOver = (e) => {
+  if (!gameIsLive) return;
+
   const cell = e.target;
   const [rowIndex, colIndex] = getCellLocation(cell);
 
@@ -272,6 +393,8 @@ const handleCellMouseOut = (e) => {
 };
 
 const handleCellClick = (e) => {
+  if (!gameIsLive) return;
+
   const cell = e.target;
   const [rowIndex, colIndex] = getCellLocation(cell);
 
@@ -285,8 +408,10 @@ const handleCellClick = (e) => {
   greenIsNext = !greenIsNext;
   clearColorFromTop(colIndex);
 
-  const topCell = topCells[colIndex];
-  topCell.classList.add(greenIsNext ? "green" : "red");
+  if (gameIsLive) {
+    const topCell = topCells[colIndex];
+    topCell.classList.add(greenIsNext ? "green" : "red");
+  }
 };
 
 for (const row of rows) {
@@ -296,3 +421,17 @@ for (const row of rows) {
     cell.addEventListener("click", handleCellClick);
   }
 }
+
+resetButton.addEventListener("click", () => {
+  for (const row of rows) {
+    for (const cell of row) {
+      cell.classList.remove("red");
+      cell.classList.remove("green");
+      cell.classList.remove("win");
+    }
+  }
+
+  gameIsLive = true;
+  greenIsNext = true;
+  statusSpan.textContent = "";
+});
