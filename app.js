@@ -148,7 +148,7 @@ const row5 = [
 const rows = [row0, row1, row2, row3, row4, row5, topRow];
 
 let gameIsLive = true;
-let yellowIsNext = true;
+let greenIsNext = true;
 
 const getClassListArray = (cell) => {
   const classList = cell.classList;
@@ -178,7 +178,7 @@ const getFirstOpenCellForColumn = (colIndex) => {
   for (const cell of columnsWithoutTop) {
     const classList = getClassListArray(cell);
 
-    if (!classList.includes("yellow") && !classList.includes("red")) {
+    if (!classList.includes("green") && !classList.includes("red")) {
       return cell;
     }
   }
@@ -189,14 +189,14 @@ const getFirstOpenCellForColumn = (colIndex) => {
 const clearColorFromTop = (colIndex) => {
   const topCell = topCells[colIndex];
 
-  topCell.classList.remove("yellow");
+  topCell.classList.remove("green");
   topCell.classList.remove("red");
 };
 
 const getColorOfCell = (cell) => {
   const classList = getClassListArray(cell);
 
-  if (classList.includes("yellow")) return "yellow";
+  if (classList.includes("green")) return "green";
   if (classList.includes("red")) return "red";
 
   return null;
@@ -210,7 +210,7 @@ const checkWinningCells = (cells) => {
     cell.classList.add("win");
   }
 
-  statusSpan.textContent = `${yellowIsNext ? "Yellow" : "Red"} has won!`;
+  statusSpan.textContent = `${greenIsNext ? "Green" : "Red"} has won!`;
   return true;
 };
 
@@ -257,8 +257,8 @@ const handleCellMouseOver = (e) => {
 
   const topCell = topCells[colIndex];
 
-  if (yellowIsNext) {
-    topCell.classList.add("yellow");
+  if (greenIsNext) {
+    topCell.classList.add("green");
   } else {
     topCell.classList.add("red");
   }
@@ -279,14 +279,14 @@ const handleCellClick = (e) => {
 
   if (!openCell) return;
 
-  openCell.classList.add(yellowIsNext ? "yellow" : "red");
+  openCell.classList.add(greenIsNext ? "green" : "red");
   checkStatusOfGame(openCell);
 
-  yellowIsNext = !yellowIsNext;
+  greenIsNext = !greenIsNext;
   clearColorFromTop(colIndex);
 
   const topCell = topCells[colIndex];
-  topCell.classList.add(yellowIsNext ? "yellow" : "red");
+  topCell.classList.add(greenIsNext ? "green" : "red");
 };
 
 for (const row of rows) {
