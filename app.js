@@ -150,13 +150,13 @@ const rows = [row0, row1, row2, row3, row4, row5, topRow];
 
 alert("Welcome to Connect Four");
 let firstPlayer = prompt("Enter First Player Name ( Green Ball ) ");
-let secondPlayer = prompt("Enter Second Player your ( Red Ball ) ");
+let secondPlayer = prompt("Enter Second Player Name ( Red Ball ) ");
 
-if (firstPlayer === "") {
+if (firstPlayer === "" || firstPlayer === null) {
   firstPlayer = "Green";
 }
 
-if (secondPlayer === "") {
+if (secondPlayer === "" || secondPlayer === null) {
   secondPlayer = "Red";
 }
 
