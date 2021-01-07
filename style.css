@@ -50,6 +50,8 @@ h1 {
   cursor: pointer;
   height: 80px;
   width: 80px;
+
+  transition: 0.5s ease;
 }
 
 .cell:not(.top)::after {
@@ -58,15 +60,16 @@ h1 {
 }
 
 .cell:not(.row-top).red::after {
-  background: #ff1616;
+  /* background: #ff1616; */
   box-shadow: inset -6px -8px 40px #282b21b3, inset -2px -5px 20px #282b21b3;
-  background: radial-gradient(circle at 100px 100px, #ffffff, #ff2600);
+  background: radial-gradient(circle at 100px 100px, #ff1616, #ff4010);
 }
 
 .cell:not(.row-top).green::after {
-  background: #ffff1e;
+  /* background: #ffff1e; */
   box-shadow: inset -6px -8px 40px #282b21b3, inset -2px -5px 20px #282b21b3;
-  background: radial-gradient(circle at 100px 100px, #ffffff, #15ff00);
+  /* background: radial-gradient(circle at 100px 100px, #ffffff, #15ff00); */
+  background: radial-gradient(circle at 100px 100px, #6bff26, #00ff0d);
 }
 
 .cell:not(.row-top).red.win {
@@ -90,15 +93,17 @@ h1 {
 }
 
 .cell.row-top.red::after {
-  background: #ff1616;
+  /* background: #ff1616; */
   box-shadow: inset -6px -8px 40px #282b21b3, inset -2px -5px 20px #282b21b3;
-  background: radial-gradient(circle at 100px 100px, #ffffff, #ff4010);
+  background: radial-gradient(circle at 100px 100px, #ff1616, #ff4010);
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1) linear;
 }
 
 .cell.row-top.green::after {
-  background: #ffff1e;
+  /* background: #ffff1e; */
   box-shadow: inset -6px -8px 40px #282b21b3, inset -2px -5px 20px #282b21b3;
-  background: radial-gradient(circle at 100px 100px, #ffffff, #15ff00);
+  background: radial-gradient(circle at 100px 100px, #6bff26, #00ff0d);
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1) linear;
 }
 
 .footer {
@@ -163,4 +168,9 @@ h1 {
 
 .left-border.bottom-border {
   border-radius: 0 0 0 10px;
+}
+
+.player-turn {
+  font-size: 12px;
+  margin-left: 5px;
 }

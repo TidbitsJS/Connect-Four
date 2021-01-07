@@ -2,6 +2,7 @@ const allCells = document.querySelectorAll(".cell:not(.row-top)");
 const topCells = document.querySelectorAll(".cell.row-top");
 const resetButton = document.querySelector(".reset");
 const statusSpan = document.querySelector(".status");
+const playerTurn = document.querySelector(".player-turn");
 
 const column0 = [
   allCells[35],
@@ -147,8 +148,22 @@ const row5 = [
 
 const rows = [row0, row1, row2, row3, row4, row5, topRow];
 
+alert("Welcome to Connect Four");
+let firstPlayer = prompt("Enter First Player Name ( Green Ball ) ");
+let secondPlayer = prompt("Enter Second Player your ( Red Ball ) ");
+
+if (firstPlayer === "") {
+  firstPlayer = "Green";
+}
+
+if (secondPlayer === "") {
+  secondPlayer = "Red";
+}
+
 let gameIsLive = true;
 let greenIsNext = true;
+
+playerTurn.textContent = `${firstPlayer}'s turn`;
 
 const getClassListArray = (cell) => {
   const classList = cell.classList;
@@ -210,7 +225,9 @@ const checkWinningCells = (cells) => {
     cell.classList.add("win");
   }
 
-  statusSpan.textContent = `${greenIsNext ? "Green" : "Red"} has won!`;
+  statusSpan.textContent = `${
+    greenIsNext ? firstPlayer : secondPlayer
+  } has won!`;
   return true;
 };
 
@@ -411,6 +428,9 @@ const handleCellClick = (e) => {
   if (gameIsLive) {
     const topCell = topCells[colIndex];
     topCell.classList.add(greenIsNext ? "green" : "red");
+    playerTurn.textContent = `${
+      greenIsNext ? firstPlayer : secondPlayer
+    }'s turn`;
   }
 };
 
@@ -434,4 +454,5 @@ resetButton.addEventListener("click", () => {
   gameIsLive = true;
   greenIsNext = true;
   statusSpan.textContent = "";
+  playerTurn.textContent = `${firstPlayer}'s turn`;
 });
